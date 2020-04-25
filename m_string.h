@@ -15,5 +15,7 @@ str_t *string_conc(str_t *left, str_t *right);
 str_t *push_back(str_t *string, char letter);
 str_t *pop_back(str_t *string);
 void swap(str_t **string_1, str_t **string_2);
-void memory_cpy(str_t **string_1, str_t *string_2, uint8_t length);
+str_t *get_line();
+void *memory_cpy(void *des, const void *src, size_t size);
+uint8_t compare(const void *string_1, const void *string_2, size_t size);
 
