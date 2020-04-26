@@ -15,9 +15,7 @@ str_t *string_dup(const char *text)
 {
     uint8_t text_length = string_length(text);
     str_t *string = create_string(text_length);
-    //string->data = text;
     memory_cpy(string->data, text, string->length);
-    //memory_cpy_char(&string, text, string->length);
     return string;
 }
 uint8_t get_string_length(str_t *string)
@@ -128,4 +126,126 @@ uint8_t compare(const void *string_1, const void *string_2, size_t size)
         string_2++;
     }
     return 1;
+}
+//Add return string
+void *memory_move(void *string_1, const void *string_2, size_t size)
+{
+    for(uint8_t i=0; i<size; i++)
+    {
+        *(uint8_t*)string_1 = *(uint8_t*)string_2;
+        string_1++;
+        string_2++;
+    }
+    return 0;
+}
+void *memory_set(void *string_1, uint8_t sign, size_t size)
+{
+    for(uint8_t i=0; i<size; i++)
+    {
+        *(uint8_t*)string_1 = sign;
+        string_1++;
+    }
+    return 0;
+}
+void *string_token(void *string_1, const uint8_t c)
+{
+    uint8_t size = string_length((char*)string_1);
+    for(uint8_t i=0; i<size; i++)
+    {
+        if(*(uint8_t*)string_1 == c)
+        {
+            *(uint8_t*)string_1 = '\n';
+        }
+        string_1++;
+    }
+    return 0;
+}
+//Add return string
+void *memory_char(void *string, const uint8_t letter, size_t size)
+{
+    uint8_t string_len = string_length((char*)string);
+    uint8_t pointer = 0;
+    str_t *string_ret;
+    for(uint8_t i=0; i<size; i++)
+    {
+        pointer = i;
+        if(*(uint8_t*)string == letter)
+        {
+            break;
+        }
+        string++;
+    }
+    if(pointer+1==size)
+    {
+        //printf("RET\n");
+        string_ret = create_string(0);
+        return string_ret;
+    }
+    else
+    {
+        string_ret = create_string(size-pointer);
+        string_ret->data = (uint8_t*)string;
+        //printf("%s\n ",string_ret->data);
+        return string_ret;
+    }
+    
+    return 0;
+}
+int memory_cmp(const void *string_1, const void *string_2, size_t size)
+{
+    int ret_val = 0;
+    for(uint8_t i=0; i<size; i++)
+    {
+        if(*(uint8_t*)string_1 != *(uint8_t*)string_2)
+        {
+            ret_val = *(uint8_t*)string_1 - *(uint8_t*)string_2;
+            return ret_val;
+        }
+        string_1++;
+        string_2++;
+    }
+    return 0;
+}
+int string_cmp(const void *string_1, const void *string_2)
+{
+    int ret_value = 0;
+    uint8_t length = string_length((char*)string_1);
+    for(uint8_t i=0; i<length; i++)
+    {
+        if(*(uint8_t*)string_1 != *(uint8_t*)string_2)
+        {
+            ret_value = *(uint8_t*)string_1 - *(uint8_t*)string_2;
+            return ret_value;
+        }
+        string_1++;
+        string_2++;
+    }
+    return 0;
+}
+void *string_chr(const void *string, uint8_t letter)
+{
+    str_t *ret_val;
+    int length = string_length((char*)string);
+    int pos = 0;
+    for(int i=0; i<length; i++)
+    {
+        if(*(uint8_t*)string == letter)
+        {
+            pos = i;
+            break;
+        }
+        string++;
+    }
+    if(pos==0)
+    {
+        ret_val = create_string(0);
+        return ret_val;
+    }
+    else
+    {
+        ret_val = create_string(length-pos);
+        ret_val->data = (uint8_t*)string;
+        return ret_val;
+    }
+    return 0;
 }
